@@ -1,18 +1,17 @@
 class Character{
-    constructor(w, h, ctx, keys) {
-        this.canvas.width = w;
-        this.canvas.height = h;
+    constructor(w, h, ctx) {
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
         this.ctx = ctx;
         this.keys = keys;
-        this.x = this.canvas.width * 0.08;
-        this.y = this.
+        this.x = this.canvas.width / 2;
+        this.y = this.canvas.height - 100;
 
         this.img = new Image();
         this.img.src = "./Images/Rugbier.png";
     
         // guardar posición original (suelo)
-        this.y0 = this.canvas.height * - 0.8;
-        this.y = this.y0;
+        this.y = this.canvas.height - 100;
     
         // número de imágenes diferentes
         this.img.frames = 3;
@@ -27,6 +26,8 @@ class Character{
         // this.setListeners();
 
         this.characterFrameW = 150;
+
+    }
     
     draw() {
         this.ctx.drawImage(
@@ -39,11 +40,13 @@ class Character{
             this.w,
             this.h
           );
+
+          console.log(this.img);
       
           this.animateImg(framesCounter);
     }
 
-    window.onkeydown = function (e) {
+    move() {window.onkeydown = function (e) {
         switch (e.keyCode) {
             case 37:
                 sense = -1
@@ -59,7 +62,9 @@ class Character{
                 bullet = new Bullet(posX + characterFrameW, 250)
                 bullet.shoot()
                 break;
+            }
         }
+    }
 
     // setListeners() {
     //     document.onkeydown = function(event) {

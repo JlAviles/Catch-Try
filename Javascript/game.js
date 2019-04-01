@@ -1,48 +1,36 @@
-var Game = {
-    canvas: undefined,
-    ctx: undefined,
-    fps: 60,
-    scoreBoard: undefined,
-    width: 0,
-    height: 0,
-    keys: {
-      right: 37,
-      left: 39,
-      TOP_KEY: 38,
-    },
-   
-
-    init: function(canvas) {
-      this.canvas = document.getElementById(canvas);
-      this.ctx = this.canvas.getContext("2d");
-      this.canvas.width = 832;
-      this.canvas.height = 925;
+class Game{
+    constructor(canvas){
+      this.canvas = document.getElementById(canvas),
+      this.ctx = this.canvas.getContext("2d"),
+      this.fps = 60,
+      // this.scoreBoard = undefined,
+      this.keys = {
+        right: 37,
+        left: 39,
+        TOP_KEY: 38
+      },
+      this.started = false
+    };
+    
+    init() {
+      console.log("a")
 
       this.myBackground = new Background(this.canvas.width, this.canvas.height, this.ctx);
-      // this.myCharacter = new Character(80,60,this.ctx,this.keys)
+      this.myCharacter = new Character(this.canvas.width,this.canvas.height,this.ctx);
   
       //ScoreBoard.init(this.ctx);
-  
-      this.startGame();
-    },
-    startGame: function(){
+
+    }
+
+    startGame() {
+      this.started = true
+      console.log("Click dentro")
           setInterval(() => {
           this.ctx.clearRect(0,0,832,925);
           this.myBackground.draw();
           this.myBackground.move();
-          // this.myCharacter.draw();
+          this.myCharacter.draw();
+          // this.framesCounter++;
         }, 1000/60);
-    
       }
-    }
-    // start: function() {
-    //   this.fps = 60;
-  
-    //   this.reset();
-  
-    //   this.interval = setInterval(() => {
-    //     this.clear();
-  
-    //     this.framesCounter++;
-    //   }
-    // }
+}

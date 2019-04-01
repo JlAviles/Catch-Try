@@ -1,12 +1,12 @@
-window.onload = function() {
-    Game.init("container");
+var myGame = new Game ("container");
+
+window.onload = function(){
+    myGame.init();
+}; 
+
+document.getElementById("#start").onclick = function() {
+    if(!myGame.started) myGame.startGame();
 };
-
-
-// window.onload = function() {
-//     document.getElementById("#button").onclick = function() {
-//       startGame();
-//     };
 
 //     var myBackground = new Background(this.w, this.h, ctx);
 
