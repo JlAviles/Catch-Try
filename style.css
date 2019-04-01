@@ -1,0 +1,23 @@
+/* html, 
+body {
+    overflow: hidden;
+}
+
+body {
+    text-align: center; */
+/* } */
+
+#container {
+    display: flex;
+    margin-left: 500px;
+    /* background-color: green; */
+}
+
+#button li{
+    position: absolute;
+    display: flex;
+    justify-content: end;
+    align-content: flex-end;
+    flex-direction: row;
+    list-style-type: none;
+}
