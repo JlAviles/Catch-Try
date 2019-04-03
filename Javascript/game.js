@@ -4,11 +4,6 @@ class Game{
       this.ctx = this.canvas.getContext("2d"),
       this.fps = 60,
       // this.scoreBoard = undefined,
-      // this.keys = {
-      //   right: 37,
-      //   left: 39,
-      //   TOP_KEY: 38
-      // },
       this.canvas.width = 832;
       this.canvas.height = 915;
       this.framesCounter = 0;
@@ -19,7 +14,11 @@ class Game{
     init() {
       this.myBackground = new Background(this.canvas.width, this.canvas.height, this.ctx);
       this.myCharacter = new Character(this.width, this.height, this.posX, this.posY,this.ctx,this.canvas);
-  
+      this.myAdversary = new Adversary(this.width, this.height, this.posX, this.posY,this.ctx,this.canvas);
+      this.myRival = new Rival(this.width, this.height,this.posX, this.posY, this.ctx, this.canvas)
+
+      console.log(this.myRival)
+      
       //ScoreBoard.init(this.ctx);
 
     }
@@ -27,17 +26,14 @@ class Game{
     startGame() {
       this.started = true
           setInterval(() => {
-          this.ctx.clearRect(0,0,832,925);
+          this.ctx.clearRect(0,0,832,915);
           this.myBackground.draw();
           this.myBackground.move();
           this.myCharacter.draw();
           this.myCharacter.setListeners();
-          // this.myCharacter.animateImg(0);
+          this.myAdversary.draw();
+          this.myRival.draw();
           // this.framesCounter++;
         }, 1000/60);
       }
-
-    // move() {
-    //   this.myCharacter.animateImg(0);
-    // }
 }

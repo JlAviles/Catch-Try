@@ -19,11 +19,8 @@ class Character{
         this.img.frames = 3;
         this.img.frameIndex = 0;
 
-        this.setListeners();
-
-        // this.characterFrameW = 150;
+        //this.characterFrameW = 150;
         this.framesCounter = 0;
-        console.log(this.framesCounter)
 
         this.keys = {
             right: 39,
@@ -51,7 +48,6 @@ class Character{
     animateImg(framesCounter) {
         if (framesCounter % 10 === 0) {
           this.img.frameIndex++;
-          console.log(this.img.frameIndex)
         
           if (this.img.frameIndex > 2) this.img.frameIndex = 0;
         }
@@ -79,26 +75,6 @@ class Character{
 
     // colisions () {
 
-    // }
-
-        // move() {window.onkeydown = function (e) {
-    //     switch (e.keyCode) {
-    //         case 37:
-    //             sense = -1
-    //             posX -= characterFrameW
-    //             if (--frame < 0) frame = 2
-    //             break;
-    //         case 39:
-    //             sense = 1
-    //             posX += characterFrameW
-    //             if (++frame > 2) frame = 0
-    //             break;
-    //         case 38:
-    //             bullet = new Bullet(posX + characterFrameW, 250)
-    //             bullet.shoot()
-    //             break;
-    //         }
-    //     }
     // }
 
     // speed() {
