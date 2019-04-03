@@ -13,11 +13,9 @@ class Game{
     
     init() {
       this.myBackground = new Background(this.canvas.width, this.canvas.height, this.ctx);
-      this.myCharacter = new Character(this.width, this.height, this.posX, this.posY,this.ctx,this.canvas);
-      this.myAdversary = new Adversary(this.width, this.height, this.posX, this.posY,this.ctx,this.canvas);
-      this.myRival = new Rival(this.width, this.height,this.posX, this.posY, this.ctx, this.canvas)
-
-      console.log(this.myRival)
+      this.myCharacter = new Character(this.posX, this.posY,this.ctx,this.canvas);
+      this.myAdversary = new Adversary( this.posX, this.posY,this.ctx,this.canvas);
+      this.myRival = new Rival(this.posX, this.posY, this.ctx, this.canvas);
       
       //ScoreBoard.init(this.ctx);
 
@@ -32,7 +30,8 @@ class Game{
           this.myCharacter.draw();
           this.myCharacter.setListeners();
           this.myAdversary.draw();
-          this.myRival.draw();
+          this.myAdversary.move();
+          this.myAdversary.animateImg(this.framesCounter);
           // this.framesCounter++;
         }, 1000/60);
       }

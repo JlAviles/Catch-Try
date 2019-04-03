@@ -1,9 +1,9 @@
 class Character{
-    constructor(width, height, posX, posY, ctx, canvas) {
+    constructor(posX, posY, ctx, canvas) {
         this.posX = posX;
         this.posY = posY;
         this.ctx = ctx;
-        this.canvas=canvas;
+        this.canvas = canvas;
         this.width = 70;
         this.height = 50;
 
@@ -19,7 +19,7 @@ class Character{
         this.img.frames = 3;
         this.img.frameIndex = 0;
 
-        //this.characterFrameW = 150;
+        this.characterFrameW = 40;
         this.framesCounter = 0;
 
         this.keys = {
@@ -49,7 +49,7 @@ class Character{
         if (framesCounter % 10 === 0) {
           this.img.frameIndex++;
         
-          if (this.img.frameIndex > 2) this.img.frameIndex = 0;
+        if (this.img.frameIndex > 2) this.img.frameIndex = 0;
         }
     };
 
