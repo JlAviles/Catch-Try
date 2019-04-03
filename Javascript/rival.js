@@ -3,6 +3,7 @@ class rival extends Adversary {
         super (posX, posY, ctx, canvas);
 
         this.img = new Image();
+        
         this.img.src = "./Images/Adversario.png";
 
         this.img.frames = 3;
