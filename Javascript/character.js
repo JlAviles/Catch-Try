@@ -6,6 +6,12 @@ class Character{
         this.canvas = canvas;
         this.width = 70;
         this.height = 50;
+        this.scoreBoard = 0;
+        this.speed = Math.floor(Math.random()*10)+1;
+        this.gravity = 0.05;
+        this.gravitySpeed = 0;
+        this.scoreBoard = 500;
+
 
         this.img = new Image();
         this.img.src = "./Images/Rugbier_ok.png";

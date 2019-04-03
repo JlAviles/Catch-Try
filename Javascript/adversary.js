@@ -7,6 +7,8 @@ class Adversary {
         this.speed = Math.floor(Math.random()*10)+1;
         this.width = 80;
         this.height = 60;
+        this.gravity = 0.05;
+        this.gravitySpeed = 0;
 
         this.posX = Math.floor(Math.random()*((this.canvas.width - 20) - 20) + 20);
         this.posY = -20;
