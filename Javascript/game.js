@@ -7,7 +7,8 @@ class Game {
       this.canvas.width = 832;
       this.canvas.height = 915;
       this.framesCounter = 0;
-      this.adversaries = [];
+      this.adversaryRival = [];
+      this.adversaryInvencible = [];
       this.reward = [];
       this.penalty = [];
       this.started = false;
@@ -35,9 +36,15 @@ class Game {
       this.Background.move();
       this.Character.draw();
       this.Character.setListeners();
-      this.generateAdversaries();
-      this.removeAdversaries();
-      this.adversaries.forEach((enemy) => {
+      this.generateAdversaryRival();
+      this.removeAdversaryRival();
+      this.adversaryRival.forEach((enemy) => {
+        enemy.draw(this.timming);
+        enemy.move();
+      });
+      this.generateAdversaryInvencible();
+      this.removeAdversaryInvencible();
+      this.adversaryInvencible.forEach((enemy) => {
         enemy.draw(this.timming);
         enemy.move();
       });
@@ -52,41 +59,53 @@ class Game {
         cup.draw(this.timming);
         cup.move();
       });
-      console.log(this.collisions())
-      if (this.collisionsRival() === true) {
+      if (this.collisionsRival()) {
         this.Character.gravity++;
         this.Rival.gravity++;
       } else if (this.collisionsInvencible()) {
         this.Character.scoreBoard - 100;
         console.log(this.Character.scoreBoard)
-      } else if (this.collisionsWorldCup() === true) {
+      } else if (this.collisionsWorldCup()) {
         this.Character.scoreBoard + 100;
         this.Character.speed++;
-      } else if (this.collisionsSinbin() === true) {
+      } else if (this.collisionsSinbin()) {
         this.Character.scoreBoard - 50;
         this.Character.speed--;
       }
       }, 1000 / 60);
   };
 
-    generateAdversaries() {
+    generateAdversaryRival() {
       if (this.timming % 120 === 0) {
-        this.adversaries.push(new Rival("./Images/Adversario.png", this.posX, this.posY, this.ctx, this.canvas));
-        this.adversaries.push(new Invencible("./Images/Invencible_1.png", this.posX, this.posY, this.ctx, this.canvas));
+        this.adversaryRival.push(new Rival("./Images/Adversario.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
       }
     };
 
-    removeAdversaries() {
-      for (var i = 0; i < this.adversaries.length; i++) {
-        if (this.adversaries[i].x >= this.w) {
-          this.adversaries.splice(i, 1);
+    removeAdversaryRival() {
+      for (var i = 0; i < this.adversaryRival.length; i++) {
+        if (this.adversaryRival[i].x >= this.w) {
+          this.adversaryRival.splice(i, 1);
+        }
+      }
+    };
+
+    generateAdversaryInvencible() {
+      if (this.timming % 120 === 0) {
+        this.adversaryInvencible.push(new Invencible("./Images/Invencible.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
+      }
+    };
+
+    removeAdversaryInvencible() {
+      for (var i = 0; i < this.adversaryInvencible.length; i++) {
+        if (this.adversaryInvencible[i].x >= this.w) {
+          this.adversaryInvencible.splice(i, 1);
         }
       }
     };
 
     generatePenalties() {
       if (this.timming % 120 === 0) {
-        this.adversaries.push(new Sinbin(this.posX, this.posY, this.ctx, this.canvas));
+        this.penalty.push(new Sinbin(this.posX, this.posY, this.ctx, this.canvas));
       }
     };
 
@@ -112,23 +131,29 @@ class Game {
       }
     };
 
-    collisions() {
-      return this.adversaries.some(rival => {
+    collisionsRival() {
+      return this.adversaryRival.some(rival => {
         return (
         this.Character.posX < (rival.posX + rival.width) &&
         (this.Character.posX + this.Character.width) > rival.posX &&
         this.Character.posY < (rival.posY + rival.height) &&
         (this.Character.posY + this.Character.height) > rival.posY
         )
-      });
-      return this.adversaries.some(invencible => {
+      })
+    }; 
+
+    collisionsInvencible() {
+      return this.adversaryInvencible.some(invencible => {
         return (
         this.Character.posX < (invencible.posX + invencible.width) &&
         (this.Character.posX + this.Character.width) > invencible.posX &&
         this.Character.posY < (invencible.posY + invencible.height) &&
         (this.Character.posY + this.Character.height) > invencible.posY
         )
-      });
+      })
+    };
+
+    collisionsWorldCup() {
       return this.reward.some(cup => {
         return (
         this.Character.posX < (cup.posX + cup.width) &&
@@ -136,7 +161,10 @@ class Game {
         this.Character.posY < (cup.posY + cup.height) &&
         (this.Character.posY + this.Character.height) > cup.posY
         )
-      });
+      })
+    };
+
+    collisionsSinbin() {
       return this.penalty.some(card => {
         return (
         this.Character.posX < (card.posX + card.width) &&
