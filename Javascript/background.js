@@ -8,7 +8,7 @@ class Background {
       this.x = 0;
       this.y = 0;
   
-      this.dy = 5;
+      this.dy = 2;
     }
 
   draw() {

@@ -19,7 +19,7 @@ class Character{
         this.img.frames = 3;
         this.img.frameIndex = 0;
 
-        this.characterFrameW = 40;
+        // this.characterFrameW = 0;
         this.framesCounter = 0;
 
         this.keys = {
