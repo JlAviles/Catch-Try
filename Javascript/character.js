@@ -12,7 +12,6 @@ class Character{
         this.gravitySpeed = 0;
         this.scoreBoard = 500;
 
-
         this.img = new Image();
         this.img.src = "./Images/Rugbier_ok.png";
 

@@ -7,31 +7,54 @@ class Game {
       this.canvas.width = 832;
       this.canvas.height = 915;
       this.framesCounter = 0;
+      this.ball = [];
       this.adversaryRival = [];
       this.adversaryInvencible = [];
       this.reward = [];
       this.penalty = [];
       this.started = false;
       this.timming = 0;
+      this.interval = this.interval
     };
 
   init() {
     this.Background = new Background(this.canvas.width, this.canvas.height, this.ctx);
     this.Character = new Character(this.posX, this.posY, this.ctx, this.canvas);
-    this.Rival = new Rival("./Images/Adversario.png", this.posX, this.posY, this.ctx, this.canvas);
+    this.Rival = new Rival("./Images/Adversario.png", this.posX, this.posY, this.ctx);
     this.Invencible = new Invencible("./Images/Invencible_1.png", this.posX, this.posY, this.ctx, this.canvas);
     this.Sinbin = new Sinbin(this.posX, this.posY, this.ctx, this.canvas);
     this.WorldCup = new WorldCup(this.posX, this.posY, this.ctx, this.canvas);
+    this.Ball = new Ball(this.posX, this.posY, this.ctx, this.canvas);
 
 
     //ScoreBoard.init(this.ctx);
   };
 
+  catchBall() {
+    this.started = true;
+    setInterval(() => {
+    this.ctx.clearRect(0, 0, 832, 915);
+    this.timming++;
+    this.Background.draw();
+    this.Background.move();
+    this.Character.draw();
+    this.Character.setListeners();
+    this.generateBalls();
+    this.removeBalls();
+    this.ball.forEach((balls) => {
+      balls.draw(this.timming);
+      balls.move();
+    });
+    if (this.collisionsBall()) {
+    this.startGame();
+    }
+    }, 1000/60)
+  };
+
   startGame() {
-    this.started = true
     setInterval(() => {
       this.ctx.clearRect(0, 0, 832, 915);
-      this.timming++
+      this.timming++;
       this.Background.draw();
       this.Background.move();
       this.Character.draw();
@@ -60,11 +83,10 @@ class Game {
         cup.move();
       });
       if (this.collisionsRival()) {
-        this.Character.gravity++;
         this.Rival.gravity++;
       } else if (this.collisionsInvencible()) {
-        this.Character.scoreBoard - 100;
-        console.log(this.Character.scoreBoard)
+        this.Character.posY += 50;
+        this.Character.scoreBoard -= 100;
       } else if (this.collisionsWorldCup()) {
         this.Character.scoreBoard + 100;
         this.Character.speed++;
@@ -74,6 +96,20 @@ class Game {
       }
       }, 1000 / 60);
   };
+
+    generateBalls() {
+      if (this.timming % 300 === 0) {
+        this.ball.push(new Ball(this.posX, this.posY, this.ctx, this.canvas));
+      }
+    };
+
+    removeBalls() {
+      for (var i = 0; i < this.ball.length; i++) {
+        if (this.ball[i].x >= this.w) {
+            this.ball.splice(i, 1);
+        }
+      }
+    };
 
     generateAdversaryRival() {
       if (this.timming % 120 === 0) {
@@ -129,6 +165,17 @@ class Game {
           this.reward.splice(i, 1);
         }
       }
+    };
+
+    collisionsBall() {
+      return this.ball.some(rugbyBalls => {
+        return (
+        this.Character.posX < (rugbyBalls.posX + rugbyBalls.width) &&
+        (this.Character.posX + this.Character.width) > rugbyBalls.posX &&
+        this.Character.posY < (rugbyBalls.posY + rugbyBalls.height) &&
+        (this.Character.posY + this.Character.height) > rugbyBalls.posY
+        )
+      })
     };
 
     collisionsRival() {

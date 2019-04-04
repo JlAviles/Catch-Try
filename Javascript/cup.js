@@ -3,7 +3,7 @@ class WorldCup {
         this.posX = posX;
         this.posY = posY;
         this.ctx = ctx;
-        this.canvas=canvas;
+        this.canvas = canvas;
         this.speed = Math.floor(Math.random()*10)+1;
         this.width = 80;
         this.height = 60;

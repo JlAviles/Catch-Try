@@ -5,5 +5,5 @@ window.onload = function(){
 }; 
 
 document.getElementById("#start").onclick = function() {
-    if(!myGame.started) myGame.startGame();
+    if(!myGame.started) myGame.catchBall();
 };
