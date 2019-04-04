@@ -3,13 +3,13 @@ class Sinbin {
         this.posX = posX;
         this.posY = posY;
         this.ctx = ctx;
-        this.canvas=canvas;
+        this.canvas = canvas;
         this.speed = Math.floor(Math.random()*10)+1;
         this.width = 100;
         this.height = 80;
 
-        this.posX = Math.floor(Math.random()*(this.canvas.width - 10) + 0);
-        this.posY = -5;
+        this.posX = Math.floor(Math.random()*(((this.canvas.width-150) - 150)) + 150);
+        this.posY = -20
 
     };
 

@@ -7,24 +7,22 @@ class Character{
         this.width = 70;
         this.height = 50;
         this.scoreBoard = 0;
-        this.speed = Math.floor(Math.random()*10)+1;
-        this.gravity = 0.05;
-        this.gravitySpeed = 0;
-        this.scoreBoard = 500;
+        this.speed = 10;
+        // this.gravity = 10;
+        // this.gravitySpeed = 10;
+        this.points = 0;
 
         this.img = new Image();
         this.img.src = "./Images/Rugbier_ok.png";
 
         this.vx = 1;
 
-        // original position
         this.posX = this.canvas.width / 2;
         this.posY = this.canvas.height - 100;
     
         this.img.frames = 3;
         this.img.frameIndex = 0;
 
-        // this.characterFrameW = 0;
         this.framesCounter = 0;
 
         this.keys = {
@@ -60,14 +58,14 @@ class Character{
 
     setListeners() {
         document.onkeydown = function(event) {
-          if (event.keyCode === this.keys.right) {
-            this.posX += 10;
-          } else if (event.keyCode === this.keys.left) {
-            this.posX -= 10;
-          } else if (event.keyCode === this.keys.run) {
-            this.posY -= 10;
-          } else if (event.keyCode === this.keys.return) {
-            this.posY += 10;
+          if (event.keyCode === this.keys.right && this.posX <= (this.canvas.width - 100)) {
+            this.posX += this.speed;
+          } else if (event.keyCode === this.keys.left && this.posX >= (this.width)) {
+            this.posX -= this.speed;
+          } else if (event.keyCode === this.keys.run && this.posY >= (this.height)) {
+            this.posY -= this.speed;
+          } else if (event.keyCode === this.keys.return && this.posY <= (this.canvas.height - 200)) {
+            this.posY += this.speed;
           }
 
         do {
@@ -78,22 +76,9 @@ class Character{
         }.bind(this);
     };
 
-    // colisions () {
+    slowly() {
+      if (!this.yellowCard) {
 
-    // }
-
-    // speed() {
-    //     // Aumenta la velocidad en el eje y.
-    //     var gravity = 0.4;
-    
-    //     // solo acelera cuando el personaje está en el suelo
-    //     if (this.y >= this.y0) {
-    //       this.vy = 1;
-    //       this.y = this.y0;
-    //     } else {
-    //       this.vy += gravity;
-    //       this.y += this.vy;
-    //     }
-    // }
-
+      }
+    }
 }

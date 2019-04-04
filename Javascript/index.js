@@ -1,4 +1,6 @@
 var myGame = new Game ("container");
+var win = document.querySelector("#win");
+var gameOver = document.getElementById("#lose");
 
 window.onload = function(){
     myGame.init();

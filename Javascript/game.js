@@ -2,16 +2,18 @@ class Game {
   constructor(canvas) {
     this.canvas = document.getElementById(canvas),
       this.ctx = this.canvas.getContext("2d"),
-      this.fps = 60,
-      // this.scoreBoard = undefined,
+      this.fps = 60;
       this.canvas.width = 832;
       this.canvas.height = 915;
-      this.framesCounter = 0;
       this.ball = [];
       this.adversaryRival = [];
+      this.timeRival = 200;
       this.adversaryInvencible = [];
+      this.timeInvencible = 300;
       this.reward = [];
+      this.timeReward = 200;
       this.penalty = [];
+      this.timePenalty = 200;
       this.started = false;
       this.timming = 0;
       this.interval = this.interval
@@ -25,9 +27,9 @@ class Game {
     this.Sinbin = new Sinbin(this.posX, this.posY, this.ctx, this.canvas);
     this.WorldCup = new WorldCup(this.posX, this.posY, this.ctx, this.canvas);
     this.Ball = new Ball(this.posX, this.posY, this.ctx, this.canvas);
+    this.ScoreBoard = new Scoreboard(this.posX, this.posY, this.ctx, this.canvas);
+    this.Time = new Time (this.ctx, this.canvas);
 
-
-    //ScoreBoard.init(this.ctx);
   };
 
   catchBall() {
@@ -54,10 +56,12 @@ class Game {
 
   startGame() {
     this.gameInterval = setInterval(() => {
-      this.ctx.clearRect(0, 0, 832, 915);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.timming++;
       this.Background.draw();
       this.Background.move();
+      this.ScoreBoard.rect();
+      this.ScoreBoard.draw();
       this.Character.draw();
       this.Character.setListeners();
       this.generateAdversaryRival();
@@ -84,18 +88,30 @@ class Game {
         cup.draw(this.timming);
         cup.move();
       });
-      if (this.collisionsRival()) {
-        this.Rival.gravity++;
-      } else if (this.collisionsInvencible()) {
-        this.Character.posY += 50;
-        this.Character.scoreBoard -= 100;
-      } else if (this.collisionsWorldCup()) {
-        this.Character.scoreBoard + 100;
-        this.Character.speed++;
-      } else if (this.collisionsSinbin()) {
-        this.Character.scoreBoard - 50;
-        this.Character.speed--;
-      }
+      if (this.collisionsRival() && this.timming % 10 === 0) {
+          this.Rival.posY -= 50;
+          this.ScoreBoard.score - 10;
+          this.Character.posY += 40;
+        } else if (this.collisionsInvencible() && this.timming % 10 === 0) {
+          this.Character.posY += 40;
+          this.ScoreBoard.score -= 50;
+        } else if (this.collisionsWorldCup() && this.timming % 2 === 0) {
+          this.Character.points += 0.5;
+          this.ScoreBoard.score += 50;
+        } else if (this.collisionsSinbin() && this.timming % 10 === 0) {
+          this.ScoreBoard.score -= 30;
+        }
+      console.log(this.Character.points) 
+      console.log(this.timming)
+      if (this.ScoreBoard.score === 0 || this.timming == 2700) {
+        clearInterval(this.gameInterval)
+        this.gameOver();
+        this.reset();
+      } else if (this.Character.points === 5) {
+      clearInterval(this.gameInterval)
+      this.win();
+      this.nextLevel();
+      };
       }, 1000 / 60);
   };
 
@@ -112,7 +128,7 @@ class Game {
     };
 
     generateAdversaryRival() {
-      if (this.timming % 120 === 0) {
+      if (this.timming % this.timeRival === 0) {
         this.adversaryRival.push(new Rival("./Images/Adversario.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
       }
     };
@@ -124,7 +140,7 @@ class Game {
     };
 
     generateAdversaryInvencible() {
-      if (this.timming % 120 === 0) {
+      if (this.timming % this.timeInvencible === 0) {
         this.adversaryInvencible.push(new Invencible("./Images/Invencible.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
       }
     };
@@ -136,7 +152,7 @@ class Game {
     };
 
     generatePenalties() {
-      if (this.timming % 120 === 0) {
+      if (this.timming % this.timePenalty === 0) {
         this.penalty.push(new Sinbin(this.posX, this.posY, this.ctx, this.canvas));
       }
     };
@@ -148,7 +164,7 @@ class Game {
     };
 
     generateWorldCup() {
-      if (this.timming % 120 === 0) {
+      if (this.timming % this.timeReward === 0) {
         this.reward.push(new WorldCup(this.posX, this.posY, this.ctx, this.canvas));
       }
     };
@@ -213,4 +229,27 @@ class Game {
         )
       });
     };
-}
+
+    win() {
+      return document.querySelector("#win");
+    };
+
+    nextLevel() {
+      this.adversaryRival = [];
+      this.timeRival = 200;
+      this.adversaryInvencible = [];
+      this.timeInvencible = 300;
+      this.reward = [];
+      this.timeReward = 200;
+      this.penalty = [];
+      this.timePenalty = 200;
+    }
+
+    gameOver() {
+      return document.getElementById("#lose");
+    };
+
+    reset() {
+      this.init();
+    };
+  }

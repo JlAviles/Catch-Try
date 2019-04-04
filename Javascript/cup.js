@@ -8,8 +8,8 @@ class WorldCup {
         this.width = 80;
         this.height = 60;
 
-        this.posX = Math.floor(Math.random()*(this.canvas.width - 10) + 0);
-        this.posY = -5;
+        this.posX = Math.floor(Math.random()*(((this.canvas.width-150) - 150)) + 150);
+        this.posY = -20;
 
     };
 
