@@ -6,6 +6,7 @@ class Game {
       this.canvas.width = 832;
       this.canvas.height = 915;
       this.ball = [];
+      this.timeBall = 100;
       this.adversaryRival = [];
       this.timeRival = 200;
       this.adversaryInvencible = [];
@@ -23,7 +24,7 @@ class Game {
     this.Background = new Background(this.canvas.width, this.canvas.height, this.ctx);
     this.Character = new Character(this.posX, this.posY, this.ctx, this.canvas);
     this.Rival = new Rival("./Images/Adversario.png", this.width, this.height,this.posX, this.posY, this.ctx, this.canvas);
-    this.Invencible = new Invencible("./Images/Invencible_1.png", this.width, this.height,this.posX, this.posY, this.ctx, this.canvas);
+    this.Invencible = new Invencible("./Images/rivalInvencible.png", this.width, this.height,this.posX, this.posY, this.ctx, this.canvas);
     this.Sinbin = new Sinbin(this.posX, this.posY, this.ctx, this.canvas);
     this.WorldCup = new WorldCup(this.posX, this.posY, this.ctx, this.canvas);
     this.Ball = new Ball(this.posX, this.posY, this.ctx, this.canvas);
@@ -88,21 +89,21 @@ class Game {
         cup.draw(this.timming);
         cup.move();
       });
-      if (this.collisionsRival() && this.timming % 10 === 0) {
-          this.Rival.posY -= 50;
+      if (this.collisionsRival() && this.timming % 80 === 0) {
           this.ScoreBoard.score - 10;
-          this.Character.posY += 40;
-        } else if (this.collisionsInvencible() && this.timming % 10 === 0) {
-          this.Character.posY += 40;
+          this.Character.posY += 60;
+        } else if (this.collisionsInvencible() && this.timming % 80 === 0) {
+          this.Character.posY += 60;
           this.ScoreBoard.score -= 50;
-        } else if (this.collisionsWorldCup() && this.timming % 2 === 0) {
-          this.Character.points += 0.5;
-          this.ScoreBoard.score += 50;
-        } else if (this.collisionsSinbin() && this.timming % 10 === 0) {
+        } else if (this.collisionsWorldCup() && this.timming % 45 === 0) {
+          this.Character.points += 1;
+          if (this.ScoreBoard.score <= 770)  {
+            this.ScoreBoard.score += 50;
+          }
+        } else if (this.collisionsSinbin() && this.timming % 45 === 0) {
           this.ScoreBoard.score -= 30;
         }
-      console.log(this.Character.points) 
-      console.log(this.timming)
+        console.log(this.ScoreBoard.score)
       if (this.ScoreBoard.score === 0 || this.timming == 2700) {
         clearInterval(this.gameInterval)
         this.gameOver();
@@ -116,7 +117,7 @@ class Game {
   };
 
     generateBalls() {
-      if (this.timming % 300 === 0) {
+      if (this.timming % this.timeBall === 0) {
         this.ball.push(new Ball(this.posX, this.posY, this.ctx, this.canvas));
       }
     };
@@ -141,7 +142,7 @@ class Game {
 
     generateAdversaryInvencible() {
       if (this.timming % this.timeInvencible === 0) {
-        this.adversaryInvencible.push(new Invencible("./Images/Invencible.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
+        this.adversaryInvencible.push(new Invencible("./Images/rivalInvencible.png", this.width, this.height, this.posX, this.posY, this.ctx, this.canvas));
       }
     };
 

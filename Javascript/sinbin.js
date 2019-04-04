@@ -5,8 +5,8 @@ class Sinbin {
         this.ctx = ctx;
         this.canvas = canvas;
         this.speed = Math.floor(Math.random()*10)+1;
-        this.width = 100;
-        this.height = 80;
+        this.width = 80;
+        this.height = 100;
 
         this.posX = Math.floor(Math.random()*(((this.canvas.width-150) - 150)) + 150);
         this.posY = -20

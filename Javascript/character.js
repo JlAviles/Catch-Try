@@ -13,12 +13,12 @@ class Character{
         this.points = 0;
 
         this.img = new Image();
-        this.img.src = "./Images/Rugbier_ok.png";
+        this.img.src = "./Images/Rugbier.png";
 
         this.vx = 1;
 
         this.posX = this.canvas.width / 2;
-        this.posY = this.canvas.height - 100;
+        this.posY = this.canvas.height - 180;
     
         this.img.frames = 3;
         this.img.frameIndex = 0;

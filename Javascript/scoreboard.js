@@ -10,12 +10,13 @@ class Scoreboard {
         this.ctx.beginPath();
         this.ctx.rect(5,850,820,50);
         this.ctx.lineWidth = "5";
+        this.ctx.fillStyle = "#8ce0ff";
         this.ctx.stroke();
     };
 
     draw() {
         this.ctx.beginPath();
-        this.ctx.fillRect(10,850,this.score,50);
+        this.ctx.fillRect(5,850,this.score,50);
         this.ctx.fillStyle = "#1a8ec4";
         this.ctx.stroke();
     };
