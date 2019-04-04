@@ -20,8 +20,8 @@ class Game {
   init() {
     this.Background = new Background(this.canvas.width, this.canvas.height, this.ctx);
     this.Character = new Character(this.posX, this.posY, this.ctx, this.canvas);
-    this.Rival = new Rival("./Images/Adversario.png", this.posX, this.posY, this.ctx);
-    this.Invencible = new Invencible("./Images/Invencible_1.png", this.posX, this.posY, this.ctx, this.canvas);
+    this.Rival = new Rival("./Images/Adversario.png", this.width, this.height,this.posX, this.posY, this.ctx, this.canvas);
+    this.Invencible = new Invencible("./Images/Invencible_1.png", this.width, this.height,this.posX, this.posY, this.ctx, this.canvas);
     this.Sinbin = new Sinbin(this.posX, this.posY, this.ctx, this.canvas);
     this.WorldCup = new WorldCup(this.posX, this.posY, this.ctx, this.canvas);
     this.Ball = new Ball(this.posX, this.posY, this.ctx, this.canvas);
@@ -32,7 +32,7 @@ class Game {
 
   catchBall() {
     this.started = true;
-    setInterval(() => {
+    this.ballInterval = setInterval(() => {
     this.ctx.clearRect(0, 0, 832, 915);
     this.timming++;
     this.Background.draw();
@@ -46,13 +46,14 @@ class Game {
       balls.move();
     });
     if (this.collisionsBall()) {
+    clearInterval(this.ballInterval)
     this.startGame();
-    }
+    };
     }, 1000/60)
   };
 
   startGame() {
-    setInterval(() => {
+    this.gameInterval = setInterval(() => {
       this.ctx.clearRect(0, 0, 832, 915);
       this.timming++;
       this.Background.draw();
@@ -78,6 +79,7 @@ class Game {
         card.move();
       });
       this.generateWorldCup();
+      this.removeWorldCup();
       this.reward.forEach((cup) => {
         cup.draw(this.timming);
         cup.move();
@@ -104,11 +106,9 @@ class Game {
     };
 
     removeBalls() {
-      for (var i = 0; i < this.ball.length; i++) {
-        if (this.ball[i].x >= this.w) {
-            this.ball.splice(i, 1);
-        }
-      }
+      this.ball = this.ball.filter(ball=> {
+        if(!(ball.posY >= this.canvas.height)) return ball;
+      })
     };
 
     generateAdversaryRival() {
@@ -118,11 +118,9 @@ class Game {
     };
 
     removeAdversaryRival() {
-      for (var i = 0; i < this.adversaryRival.length; i++) {
-        if (this.adversaryRival[i].x >= this.w) {
-          this.adversaryRival.splice(i, 1);
-        }
-      }
+      this. adversaryRival = this.adversaryRival.filter(rival=> {
+        if(!(rival.posY >= this.canvas.height)) return rival;
+      })
     };
 
     generateAdversaryInvencible() {
@@ -132,11 +130,9 @@ class Game {
     };
 
     removeAdversaryInvencible() {
-      for (var i = 0; i < this.adversaryInvencible.length; i++) {
-        if (this.adversaryInvencible[i].x >= this.w) {
-          this.adversaryInvencible.splice(i, 1);
-        }
-      }
+      this. adversaryInvencible = this.adversaryInvencible.filter(invencible=> {
+        if(!(invencible.posY >= this.canvas.height)) return invencible;
+      })
     };
 
     generatePenalties() {
@@ -146,11 +142,9 @@ class Game {
     };
 
     removePenalties() {
-      for (var i = 0; i < this.penalty.length; i++) {
-        if (this.penalty[i].x >= this.w) {
-          this.penalty.splice(i, 1);
-        }
-      }
+      this.penalty = this.penalty.filter(card=> {
+        if(!(card.posY >= this.canvas.height)) return card;
+      })
     };
 
     generateWorldCup() {
@@ -160,11 +154,9 @@ class Game {
     };
 
     removeWorldCup() {
-      for (var i = 0; i < this.reward.length; i++) {
-        if (this.reward[i].x >= this.w) {
-          this.reward.splice(i, 1);
-        }
-      }
+      this.reward = this.reward.filter(cup=> {
+        if(!(cup.posY >= this.canvas.height)) return cup;
+      })
     };
 
     collisionsBall() {

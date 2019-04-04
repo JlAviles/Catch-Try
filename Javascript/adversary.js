@@ -1,16 +1,16 @@
 class Adversary {
-    constructor (src, width, height, posX, posY, ctx, canvasWidth){
+    constructor (src, width, height, posX, posY, ctx, canvas){
         this.posX = posX;
         this.posY = posY;
         this.ctx = ctx;
-       // this.canvas = canvas;
+       this.canvas = canvas;
         this.speed = Math.floor(Math.random()*10)+1;
         this.width = width;
         this.height = height;
         // this.gravity = 0.05;
         // this.gravitySpeed = 0;
         // this.canvasWidth = canvasWidth.width;
-        this.posX = Math.floor(Math.random()*(((canvas.width-150) - 150)) + 150);
+        this.posX = Math.floor(Math.random()*(((this.canvas.width-150) - 150)) + 150);
         this.posY = -20;
 
         this.vx = 1;
