@@ -90,25 +90,24 @@ class Game {
         cup.move();
       });
       if (this.collisionsRival() && this.timming % 80 === 0) {
-          this.ScoreBoard.score - 10;
+          this.ScoreBoard.score -= 100;
           this.Character.posY += 60;
         } else if (this.collisionsInvencible() && this.timming % 80 === 0) {
-          this.Character.posY += 60;
-          this.ScoreBoard.score -= 50;
+          this.Character.posY += 100;
+          this.ScoreBoard.score -= 200;
         } else if (this.collisionsWorldCup() && this.timming % 45 === 0) {
           this.Character.points += 1;
           if (this.ScoreBoard.score <= 770)  {
             this.ScoreBoard.score += 50;
           }
         } else if (this.collisionsSinbin() && this.timming % 45 === 0) {
-          this.ScoreBoard.score -= 30;
+          this.ScoreBoard.score -= 50;
         }
-        console.log(this.ScoreBoard.score)
-      if (this.ScoreBoard.score === 0 || this.timming == 2700) {
+      if (this.ScoreBoard.score <= 0) {
         clearInterval(this.gameInterval)
         this.gameOver();
         this.reset();
-      } else if (this.Character.points === 5) {
+      } else if (this.Character.points >= 5 || this.timming >= 2700) {
       clearInterval(this.gameInterval)
       this.win();
       this.nextLevel();
@@ -232,10 +231,13 @@ class Game {
     };
 
     win() {
-      return document.querySelector("#win");
+      var win = document.querySelector("#win");
+      win.style.display = "block";
     };
 
     nextLevel() {
+      this.timming = 0;
+      this.init();
       this.adversaryRival = [];
       this.timeRival = 200;
       this.adversaryInvencible = [];
@@ -244,13 +246,15 @@ class Game {
       this.timeReward = 200;
       this.penalty = [];
       this.timePenalty = 200;
-    }
+    };
 
     gameOver() {
-      return document.getElementById("#lose");
+      var lost = document.getElementById("lose");
+      lost.style.display = "block";
     };
 
     reset() {
+      this.timming = 0;
       this.init();
     };
   }
