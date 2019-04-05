@@ -94,12 +94,12 @@ class Game {
         cup.draw(this.timming);
         cup.move();
       });
-      if (this.collisionsRival() && this.timming % 80 === 0) {
+      if (this.collisionsRival() && this.timming % 50 === 0) {
           this.ScoreBoard.score -= 100;
           this.Character.posY += 60;
-        } else if (this.collisionsInvencible() && this.timming % 80 === 0) {
+        } else if (this.collisionsInvencible() && this.timming % 50 === 0) {
           this.Character.posY += 100;
-          this.ScoreBoard.score -= 400;
+          this.ScoreBoard.score -= 200;
         } else if (this.collisionsWorldCup() && this.timming % 45 === 0) {
           this.Character.points += 1;
           if (this.ScoreBoard.score <= 770)  {
