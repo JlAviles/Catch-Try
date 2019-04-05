@@ -18,6 +18,8 @@ class Game {
       this.started = false;
       this.timming = 0;
       this.interval = this.interval
+      this.winElement = document.querySelector("#win");
+      this.lostElement = document.querySelector("#lose");
     };
 
   init() {
@@ -29,12 +31,15 @@ class Game {
     this.WorldCup = new WorldCup(this.posX, this.posY, this.ctx, this.canvas);
     this.Ball = new Ball(this.posX, this.posY, this.ctx, this.canvas);
     this.ScoreBoard = new Scoreboard(this.posX, this.posY, this.ctx, this.canvas);
-    this.Time = new Time (this.ctx, this.canvas);
 
   };
 
   catchBall() {
+    this.reset()
+
+    this.winElement.style.display = "none";
     this.started = true;
+    this.canvas.style.display = "block";
     this.ballInterval = setInterval(() => {
     this.ctx.clearRect(0, 0, 832, 915);
     this.timming++;
@@ -94,7 +99,7 @@ class Game {
           this.Character.posY += 60;
         } else if (this.collisionsInvencible() && this.timming % 80 === 0) {
           this.Character.posY += 100;
-          this.ScoreBoard.score -= 200;
+          this.ScoreBoard.score -= 400;
         } else if (this.collisionsWorldCup() && this.timming % 45 === 0) {
           this.Character.points += 1;
           if (this.ScoreBoard.score <= 770)  {
@@ -104,13 +109,9 @@ class Game {
           this.ScoreBoard.score -= 50;
         }
       if (this.ScoreBoard.score <= 0) {
-        clearInterval(this.gameInterval)
         this.gameOver();
-        this.reset();
       } else if (this.Character.points >= 5 || this.timming >= 2700) {
-      clearInterval(this.gameInterval)
       this.win();
-      this.nextLevel();
       };
       }, 1000 / 60);
   };
@@ -231,13 +232,46 @@ class Game {
     };
 
     win() {
-      var win = document.querySelector("#win");
-      win.style.display = "block";
+      clearInterval(this.gameInterval)
+      this.started = false
+      this.winElement = document.querySelector("#win");
+      this.winElement.style.display = "block";
+
+      setTimeout(() => {
+        this.winElement.style.display = "none";
+        this.canvas.style.display = "none";
+      }, 1800);
     };
 
     nextLevel() {
-      this.timming = 0;
-      this.init();
+      this.timeRival = 200;
+      this.timeInvencible = 300;
+      this.timeReward = 200;
+      this.timePenalty = 200;
+    };
+
+    gameOver() {
+      clearInterval(this.gameInterval)
+      this.started = false
+      this.lostElement = document.querySelector("#lose");
+      this.lostElement.style.display = "block";
+
+      setTimeout(() => {
+        this.lostElement.style.display = "none";
+        this.canvas.style.display = "none";
+      }, 1800);
+    };
+
+    reset() {
+      // this.Character.point = 0;
+      // this.ScoreBoard.score = 820;
+      // this.timming = 0;
+      // this.ball=[]
+      this.fps = 60;
+      this.canvas.width = 832;
+      this.canvas.height = 915;
+      this.ball = [];
+      this.timeBall = 100;
       this.adversaryRival = [];
       this.timeRival = 200;
       this.adversaryInvencible = [];
@@ -246,15 +280,9 @@ class Game {
       this.timeReward = 200;
       this.penalty = [];
       this.timePenalty = 200;
-    };
-
-    gameOver() {
-      var lost = document.getElementById("lose");
-      lost.style.display = "block";
-    };
-
-    reset() {
+      this.started = false;
       this.timming = 0;
-      this.init();
+
+      this.init()
     };
   }
